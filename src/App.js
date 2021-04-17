@@ -1,49 +1,30 @@
-const luana = {
-    cliente: 'Luana',
-    idade: 27,
-    compras: [
-        { nome: 'Notebook', preco: 'R$ 2500' },
-        { nome: 'Geladeira', preco: 'R$ 3000' },
-        { nome: 'Smartphone', preco: 'R$ 1500' },
-    ],
-    ativa: true,
-};
+// Replique a interface como a apresentada na aula
+// Utilize a array abaixo para mostrar os produtos
+// Quebre em componentes o que precisar ser reutilizado
+// Dica: const { pathname } = window.location; (puxa o caminho do URL)
 
-const mario = {
-    cliente: 'Mario',
-    idade: 31,
-    compras: [
-        { nome: 'Notebook', preco: 'R$ 2500' },
-        { nome: 'Geladeira', preco: 'R$ 3000' },
-        { nome: 'Smartphone', preco: 'R$ 1500' },
-        { nome: 'Guitarra', preco: 'R$ 3500' },
-    ],
-    ativa: false,
-};
+import React from "react";
+import Header from "./Header";
+import Product from "./Product";
+import Home from "./Home";
 
-let ativa = (dados) => {
-    return dados.ativa ? 'Ativa' : 'Inativa';
-}
-
-let total = (dados) => {
-    let total = 0;
-    dados.compras.forEach(element => {
-        total = total + parseInt(element.preco.split('R$ ')[1])
-    });
-    return total;
-}
+const produtos = [
+  { nome: 'Notebook', propriedades: ['16gb ram', '512gb'] },
+  { nome: 'Smartphone', propriedades: ['2gb ram', '128gb'] },
+];
 
 function App() {
-    const dados = luana;
-    return (
-        <div className="App">
-            <p>Nome: {dados.cliente}</p>
-            <p>Idade: {dados.idade}</p>
-            <p className={ativa(dados).toLocaleLowerCase()}>Situação: <span>{ativa(dados)}</span></p>
-            <p>Total gasto: {'R$ ' + total(dados)}</p>
-            {total(dados) > 10000 && <p>  "Voce está gastando muito"</p>}
-        </div>
-    );
+  const { pathname } = window.location;
+  return (
+    <React.Fragment>
+      <Header />
+      {
+        pathname == "/product" ?
+          <Product products={produtos} /> :
+          <Home />
+      }
+    </React.Fragment>
+  );
 }
 
 export default App;
