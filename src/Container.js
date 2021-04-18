@@ -1,21 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from './Context'
 
-function Container({ item }) {
-    // descricao, fotos, id, nome, preco, usuario_id, vendido
+function Container() {
+    const global = useContext(Context);
+    console.log(global)
+    if (global.productData == null) {
+        return null;
+    }
     return (
         <div>
-
-            {item.fotos.map((foto, index) => {
-                return (<img alt={foto.titulo} key={index} style={{ width: '200px' }} src={foto.src} />)
-            })}
-
-            <p>Descricao: {item.descricao || ''} </p>
-            <p>Id: {item.id || ''} </p>
-            <p>Nome: {item.nome || ''} </p>
-            <p>Preco: {item.preco || ''} </p>
-            <p>Usuario_id: {item.usuario_id || ''} </p>
-            <p>Vendido: {item.vendido || ''} </p>
-
+            <div>{
+                global.productData.map((item, index) => {
+                    return <p key={index}>{item.nome}</p>
+                }
+                )}</div>
+            <button onClick={global.clearData}>Limpar</button>
         </div>
     )
 }
