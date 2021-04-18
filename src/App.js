@@ -7,23 +7,35 @@
 // Ao clicar no botão faça um fetch a api e mostre os dados do produto na tela.
 // Mostre apenas um produto por vez
 // Mostre a mensagem carregando... enquanto o fetch é realizado
-import React, { useState } from 'react'
+
+
+
+// pt2
+// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
+// Defina o produto clicado como uma preferência do usuário no localStorage
+// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
+
+import React, { useEffect, useState } from 'react'
 import Button from './Button'
 import Container from './Container'
 function App() {
 
   const [items, setItems] = useState({});
+  const [link, setLink] = useState(window.localStorage.link);
 
-  function get(link) {
+  useEffect(() => {
+    localStorage.setItem('link', link);
     fetch("https://ranekapi.origamid.dev/json/api/produto/" + link)
       .then(res => res.json())
       .then(
         (result) => {
-          // console.log(result);
           setItems(result);
         },
       );
-  }
+  }, [link]);
 
   const links = [
     "tablet",
@@ -33,7 +45,7 @@ function App() {
   return (
     <div>
       {links.map(item => {
-        return (<Button link={item} key={item} handleClick={get} />)
+        return (<Button link={item} key={item} handleClick={setLink} />)
       })}
       {items.id ?
         <Container item={items} />
