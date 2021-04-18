@@ -1,30 +1,45 @@
-// Replique a interface como a apresentada na aula
-// Utilize a array abaixo para mostrar os produtos
-// Quebre em componentes o que precisar ser reutilizado
-// Dica: const { pathname } = window.location; (puxa o caminho do URL)
-
-import React from "react";
-import Header from "./Header";
-import Product from "./Product";
-import Home from "./Home";
-
-const produtos = [
-  { nome: 'Notebook', propriedades: ['16gb ram', '512gb'] },
-  { nome: 'Smartphone', propriedades: ['2gb ram', '128gb'] },
-];
-
+//rfc
+// Os links abaixo puxam dados de um produto em formato JSON
+// https://ranekapi.origamid.dev/json/api/produto/tablet
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// Crie uma interface com 3 botões, um para cada produto.
+// Ao clicar no botão faça um fetch a api e mostre os dados do produto na tela.
+// Mostre apenas um produto por vez
+// Mostre a mensagem carregando... enquanto o fetch é realizado
+import React, { useState } from 'react'
+import Button from './Button'
+import Container from './Container'
 function App() {
-  const { pathname } = window.location;
+
+  const [items, setItems] = useState({});
+
+  function get(link) {
+    fetch("https://ranekapi.origamid.dev/json/api/produto/" + link)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          // console.log(result);
+          setItems(result);
+        },
+      );
+  }
+
+  const links = [
+    "tablet",
+    "smartphone",
+    "notebook"
+  ]
   return (
-    <React.Fragment>
-      <Header />
-      {
-        pathname == "/product" ?
-          <Product products={produtos} /> :
-          <Home />
-      }
-    </React.Fragment>
-  );
+    <div>
+      {links.map(item => {
+        return (<Button link={item} key={item} handleClick={get} />)
+      })}
+      {items.id ?
+        <Container item={items} />
+        : ''}
+    </div>
+  )
 }
 
-export default App;
+export default App
