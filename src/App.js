@@ -1,73 +1,78 @@
 //rfc
-// Faça um fetch (POST) para a API abaixo
-// Para a criação ser aceita é necessário enviar dodos de:
-// nome, email, senha, cep, rua, numero, bairro, cidade e estado
-// Mostre uma mensagem na tela, caso a resposta da API seja positiva
 import React, { useState } from 'react'
-import { Storage } from './Context'
 
+const perguntas = [
+  {
+    pergunta: 'Qual método é utilizado para criar componentes?',
+    options: [
+      'React.makeComponent()',
+      'React.createComponent()',
+      'React.createElement()',
+    ],
+    resposta: 'React.createElement()',
+    id: 'p1',
+  },
+  {
+    pergunta: 'Como importamos um componente externo?',
+    options: [
+      'import Component from "./Component"',
+      'require("./Component")',
+      'import "./Component"',
+    ],
+    resposta: 'import Component from "./Component"',
+    id: 'p2',
+  },
+  {
+    pergunta: 'Qual hook não é nativo?',
+    options: ['useEffect()', 'useFetch()', 'useCallback()'],
+    resposta: 'useFetch()',
+    id: 'p3',
+  },
+  {
+    pergunta: 'Qual palavra deve ser utilizada para criarmos um hook?',
+    options: ['set', 'get', 'use'],
+    resposta: 'use',
+    id: 'p4',
+  },
+];
 function App() {
-  const [form, setForm] = useState({
-    nome: '', email: '', senha: '', cep: '', rua: '', numero: '', bairro: ''
-  })
+  const [stage, setStage] = useState(0);
+  const [answer, setAnswer] = useState({});
 
-  const [response, setResponse] = useState('');
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    // Essa é a função utilizado para realizar o POST
-    fetch('https://ranekapi.origamid.dev/json/api/usuario', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // form é o objeto com os dados do formulário
-      body: JSON.stringify(form),
-    }).then((res) => {
-      console.log(res)
-      setResponse(res.status)
-    });
-  }
-
-  function handleChange({ target }) {
-    const { id, value } = target;
-    setForm({ ...form, [id]: value })
-  }
-
-  function setType(item) {
-    switch (item) {
-      case 'numero':
-        return 'number'
-      case 'email':
-        return item;
-      case 'senha':
-        return 'password';
-      default:
-        return 'text';
-    }
+  function checkResult(answer) {
+    let correct = 0;
+    perguntas.forEach((item, index) => {
+      if (item.resposta === answer[index]) {
+        correct++
+      }
+    })
+    return correct
   }
 
   return (
-    <Storage>
-      <form >
-        {Object.keys(form).map((item) => {
+    stage < 4 ?
+      <React.Fragment>
+        <h1>{perguntas[stage].pergunta}</h1>
+        {perguntas[stage].options.map((option, index) => {
           return (
-            <label key={item} htmlFor={item}>
-              {item}
-              <input
-                type={setType(item)}
-                value={form[item]}
-                id={item}
-                onChange={handleChange}>
-              </input>
+            <label key={index}>
+              <input type={'radio'}
+                name={perguntas[stage].pergunta}
+                value={option}
+                checked={answer[stage] === option ? true : false}
+                onChange={({ target }) => { setAnswer({ ...answer, [stage]: option }) }} />
+              {option}
             </label>
           )
         })}
-        {response != '' ? response == '200' ? <p>Enviado com sucesso!</p> : <p>Falha no Envio, tente novamente!</p> : ''}
-        <button onClick={handleSubmit}>Submit</button>
-      </form>
-    </Storage>
+        <button onClick={() => { const newStage = stage + 1; setStage(newStage) }} disabled={!answer[stage]} >Próximo </button>
+      </React.Fragment>
+      : <React.Fragment>Resultado final: {checkResult(answer)} respostas corretas de {perguntas.length}.</React.Fragment>
   )
+
+
+
+
 }
 
 export default App

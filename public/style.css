@@ -52,8 +52,23 @@ li {
 label {
   display: block;
   margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
-
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+  transition: 0.1s;
+  background: var(--color);
+  color: var(--color-dark);
+  padding: 0.8rem 1.6rem;
+}
+button[disabled]{
+  opacity: .5;
+}
+/* 
 input,
 textarea {
   display: block;
@@ -109,4 +124,4 @@ hr {
 }
 .inativa span{
     color: red;
-}
+} */
