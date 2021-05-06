@@ -9,6 +9,7 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Products from './Products'
+import Product from './Product'
 import Contato from './Contato'
 import Header from './Header'
 import NaoEncontrado from './NaoEncontrado'
@@ -32,8 +33,11 @@ function App() {
       <Header />
       <Routes >
         <Route path="/" element={<Products products={products} />} />
-        <Route path="/products/:id/" element={<Products products={products} />} />
-        <Route path="/Contato" element={<Contato picture={products[3] ? products[3].fotos[0].src : ''} />} />
+        <Route path="products/:id" element={<Product products={products} />} />
+        {/* {products.map((product, index) => {
+          <Route key={index} path={"products/" + product.id} element={<Product product={product} />} />
+        })} */}
+        <Route path="/Contato" element={<Contato picture={products[3] ? products[3].fotos[0] : ''} />} />
         <Route path="/*" element={<NaoEncontrado />} />
       </Routes>
     </BrowserRouter>
