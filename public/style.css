@@ -1,4 +1,4 @@
-*,
+/* *,
 *::after,
 *::before {
   box-sizing: border-box;
@@ -68,7 +68,7 @@ button {
 button[disabled]{
   opacity: .5;
 }
-/* 
+
 input,
 textarea {
   display: block;
