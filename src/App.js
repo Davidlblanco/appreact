@@ -13,10 +13,11 @@ import Product from './Product'
 import Contato from './Contato'
 import Header from './Header'
 import NaoEncontrado from './NaoEncontrado'
-import './animation.css'
+import './css/animation.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
   const [products, setProducts] = useState({});
   useEffect(() => {
     fetch('    https://ranekapi.origamid.dev/json/api/produto')
@@ -27,8 +28,6 @@ function App() {
   }, [])
   console.log(products)
   return (
-
-
     <BrowserRouter>
       <Header />
       <Routes >
